@@ -1,9 +1,14 @@
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 const input = ref("");
+const txtArea = ref(null);
 
 const size = computed(() => new Blob([input.value]).size);
+
+watch(input, () => {
+  autoGrow();
+});
 
 function res(event) {
   const file = event.target.files[0];
@@ -13,7 +18,9 @@ function res(event) {
   reader.readAsText(file);
 
   reader.onload = function () {
+    txtArea.value.value = reader.result;
     input.value = reader.result;
+    autoGrow();
   };
 
   reader.onerror = function () {
@@ -21,10 +28,9 @@ function res(event) {
   };
 }
 
-function autoGrow(event) {
-  input.value = event.target.value;
-  if (event.target.scrollHeight > event.target.clientHeight) {
-    event.target.style.height = `${event.target.scrollHeight}px`;
+function autoGrow() {
+  if (txtArea.value.scrollHeight > txtArea.value.clientHeight) {
+    txtArea.value.style.height = `${txtArea.value.scrollHeight}px`;
     // while (
     //   parseInt(event.target.style.height) >= event.target.scrollHeight &&
     //   event.target.scrollHeight > 140
@@ -49,8 +55,8 @@ function autoGrow(event) {
       rows="5"
       class="overflow-hidden block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-3"
       placeholder="Write your thoughts here..."
-      :value="input"
-      @input="autoGrow"
+      v-model="input"
+      ref="txtArea"
     ></textarea>
     <span class="">Размер в Битах: {{ size }}</span>
     <span class="">Размер в Байтах: {{ size / 8 }}</span>
