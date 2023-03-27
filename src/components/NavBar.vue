@@ -13,7 +13,7 @@
         />
         <span
           class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
-          >Flowbite</span
+          >online-text-size</span
         >
       </a>
     </div>
