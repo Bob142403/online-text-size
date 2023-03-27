@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref, watch } from "vue";
+import NavBar from "./components/NavBar.vue";
 
 const input = ref("");
 const txtArea = ref(null);
@@ -45,6 +46,7 @@ function autoGrow() {
 </script>
 
 <template>
+  <NavBar></NavBar>
   <div class="container mx-auto pt-3 flex flex-col">
     <input
       class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
@@ -58,8 +60,9 @@ function autoGrow() {
       v-model="input"
       ref="txtArea"
     ></textarea>
-    <span class="">Размер в Битах: {{ size }}</span>
-    <span class="">Размер в Байтах: {{ size / 8 }}</span>
-    <span class="">Размер в Килобайтах: {{ size / 8192 }}</span>
+    <span class="" v-if="Math.floor(size / 1024) > 0"
+      >Размер в Килобитах: {{ size / 1024 }}</span
+    >
+    <span v-else class="">Размер в Битах: {{ size }}</span>
   </div>
 </template>
