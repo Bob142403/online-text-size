@@ -60,7 +60,7 @@ function autoGrow() {
       v-model="input"
       ref="txtArea"
     ></textarea>
-    <span class="" v-if="Math.floor(size / 1024) > 0"
+    <span class="" v-if="size >= 1024"
       >Размер в Килобайтах: {{ size / 1024 }}</span
     >
     <span v-else class="">Размер в Байтах: {{ size }}</span>
